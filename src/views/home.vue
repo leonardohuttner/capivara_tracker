@@ -40,22 +40,17 @@
 
 <script>
 import Rastreio from '../components/rastreio.vue'
-import * as service from '../services/track'
 
 export default {
   components: { Rastreio },
   name: 'Home',
   data(){
     return {
-      dados:{},
-      dados2: {},
       tab:'rastreio'
     }
   },
   mounted(){
-    service.getData().then(async (res)=>{
-      this.dados = res
-    })
+
   },
 }
 </script>

@@ -1,106 +1,51 @@
 <template>
   <div class="q-px-lg q-pb-md">
     <q-timeline color="secondary">
-      <q-timeline-entry heading body="Timeline heading" />
+      <q-timeline-entry heading :body="dados.codigo" />
 
       <q-timeline-entry
-        title="Event Title"
-        subtitle="February 22, 1986"
-        avatar="https://cdn.quasar.dev/img/avatar3.jpg"
-        :body="body"
-      />
+        v-for="evento in dados.eventos"
+        :key="evento.hora"
+        :title="evento.status"
+        :icon="getIcon(evento.status)"
+      >
+        <q-list>
+          <q-item clickable v-ripple>
+            <q-item-section>{{evento.local}}</q-item-section>
+          </q-item>
 
-      <q-timeline-entry
-        title="Event Title"
-        subtitle="February 21, 1986"
-        icon="delete"
-        :body="body"
-      />
+          <q-item clickable v-ripple>
+            <q-item-section>{{evento.data}} {{evento.hora}}</q-item-section>
+          </q-item>
 
-      <q-timeline-entry
-        title="Event Title"
-        subtitle="February 22, 1986"
-        :body="body"
-      />
-
-      <q-timeline-entry
-        title="Event Title"
-        subtitle="February 22, 1986"
-        :body="body"
-      />
-
-      <q-timeline-entry
-        title="Event Title"
-        subtitle="February 22, 1986"
-        color="orange"
-        icon="done_all"
-        :body="body"
-      />
-
-      <q-timeline-entry
-        title="Event Title"
-        subtitle="February 22, 1986"
-        :body="body"
-      />
-
-      <q-timeline-entry
-        title="Event Title"
-        subtitle="February 22, 1986"
-        :body="body"
-      />
+          <q-item clickable v-ripple>
+            <q-item-section v-html="evento.subStatus ? evento.subStatus[0] : ''">{{evento.subStatus[0]}}</q-item-section>
+            <q-item-section>{{evento.subStatus[1]}}</q-item-section>
+          </q-item>
+        </q-list>
+      </q-timeline-entry>
     </q-timeline>
   </div>
 </template>
 
 <script>
+// import * as service from '../services/track'
 export default {
   props: { dados: Object },
   data() {
     return {
-    encomenda: '',
-    
-    
-    // encomenda_mockup: {
-    //     codigo: "OQ360293619BR",
-    //     host: "rd",
-    //     eventos: [
-    //       {
-    //         data: "21/09/2021",
-    //         hora: "20:45",
-    //         local: "PORTO ALEGRE",
-    //         status: "Objeto encaminhado",
-    //         subStatus: ["Encaminhado para Unidade de Tratamento / CAMAQUA RS"],
-    //       },
-    //       {
-    //         data: "20/09/2021",
-    //         hora: "21:53",
-    //         local: "SAO PAULO",
-    //         status: "Objeto encaminhado",
-    //         subStatus: [
-    //           "Encaminhado para Unidade de Tratamento / PORTO ALEGRE RS",
-    //         ],
-    //       },
-    //       {
-    //         data: "20/09/2021",
-    //         hora: "17:57",
-    //         local: "SAO PAULO",
-    //         status: "Objeto encaminhado",
-    //         subStatus: ["Encaminhado para Agência dos Correios / SAO PAULO SP"],
-    //       },
-    //       {
-    //         data: "20/09/2021",
-    //         hora: "17:02",
-    //         local: "SAO PAULO",
-    //         status: "Objeto postado",
-    //         subStatus: ["Registrado por Agência dos Correios"],
-    //       },
-    //     ],
-    //     time: 0.001,
-    //     quantidade: 4,
-    //     servico: "",
-    //     ultimo: "2021-09-21T23:45:00.000Z",
-    //   },
+      encomenda: ""
     };
+  },
+  methods: {
+    getIcon(status){
+      if(status == 'Objeto postado') return 'place'
+      else if(status == 'Objeto encaminhado') return 'local_shipping'
+      else if(status == 'Fiscalização aduaneira finalizada') return 'fact_check'
+      else if(status == 'Objeto recebido pelos Correios do Brasil') return 'flight_land'
+      else if(status == 'Objeto saiu para entrega ao destinatário') return 'local_shipping'
+      else if(status == 'Objeto entregue ao destinatário') return 'done'
+    }
   },
 };
 </script>
