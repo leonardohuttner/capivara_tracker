@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
 import Home from '../views/home.vue'
-import Rastreamento from '../views/rastreamento.vue'
+import Rastreamento from '../views/rastreio.vue'
+import NotFound from '../views/not_found.vue'
 
 Vue.use(VueRouter)
 
@@ -18,7 +20,8 @@ const routes = [
   },
   {
     path:'*',
-    name:'Não encotrado'
+    name:'Não encotrado',
+    component: NotFound
   }
 ]
 

@@ -4,6 +4,8 @@ import App from './App.vue'
 import './quasar'
 import router from './router'
 
+require('dotenv').config()
+
 Vue.config.productionTip = false
 
 new Vue({

@@ -1,6 +1,8 @@
 <template>
   <div>
-      <div>
+      <div class="q-ma-md">
+          <h3 class="q-ma-md">Rastreador de encomendas</h3>
+          <p>Digite o codigo apenas do Correios (por enquanto) e rastreie seu pacote.</p>
           <q-input label="Digite o codigo de rastreamento" v-model="codigo"/>
           <q-btn class="q-ma-sm" color="green" @click="buscar(codigo)">Buscar</q-btn>
       </div>
@@ -11,9 +13,9 @@
 export default {
     data(){
         return {
-            // codigo: 'OQ360293619BR', //brasil
+            codigo: 'OQ360293619BR', //brasil
             // codigo:'NX287870895BR', //china
-            codigo:'',
+            // codigo:'',
             data:''
         }
     },

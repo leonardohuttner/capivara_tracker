@@ -1,8 +1,20 @@
 <template>
   <div id="app">
-    <router-view/>
+    <toolbar/>
   </div>
 </template>
+
+<script>
+import toolbar from './components/toolbar.vue'
+export default {
+  components: { toolbar },
+  data() {
+    return {
+
+    }
+  },
+}
+</script>
 
 <style lang="scss">
 #app {
