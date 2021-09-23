@@ -1,6 +1,7 @@
 <template>
-    <q-inner-loading :visible="loading">
+    <q-inner-loading class="load" :showing="loading">
         <q-spinner size="90px" color="green"/>
+        <p>{{this.message}}</p>
     </q-inner-loading>
 </template>
 
@@ -11,11 +12,17 @@ export default {
         loading: {
             type: Boolean,
             default: false
+        },
+        message: {
+            type:String,
+            default: ''
         }
     }
 }
 </script>
 
 <style>
-
+load{
+    position: relative;
+}
 </style>
