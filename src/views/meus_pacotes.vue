@@ -1,27 +1,15 @@
 <template>
-  <div class="geral">
-    <q-card class="q-pa-xs row">
-      <q-list v-for="pacote in pacotes" :key="pacote.codigo">
-        <q-item>
-          <q-card bordered class="card col-auto q-pa-xs">
-            <q-card-section>
-              <q-item-label>{{ pacote.codigo }}</q-item-label>
-            </q-card-section>
-            <q-separator></q-separator>
-            <q-card-section class="no-margin no-padding">
-                {{ pacote.status }}
-            </q-card-section>
-            <q-card-section class="no-margin no-padding">
-                {{ pacote.data_hora }}
-            </q-card-section>
-            <q-card-action align="around">
-              <q-btn icon="close" flat size="10px"></q-btn>
-              <q-btn icon="done" flat size="10px"></q-btn>
-            </q-card-action>
-          </q-card>
-        </q-item>
-      </q-list>
-    </q-card>
+  <div class="cards q-pa-xs " :style="width= $q.screen.width">
+      <div v-for="pacote in pacotes" :key="pacote.codigo">
+          <section class="card shadow-3">
+            <!-- <q-btn round icon="close" class="botao no-padding no-margin" size="5px"></q-btn> -->
+            <div class="titulo">
+              <h5 class="header">{{ pacote.codigo }}</h5>
+            </div>
+            <span>{{ pacote.status }}</span>
+            <span>{{ pacote.data_hora }}</span>
+          </section>
+      </div>
   </div>
 </template>
 
@@ -41,24 +29,87 @@ export default {
           data_hora: "Entregue as 16/09/21",
         },
         {
-          codigo: "QE891600715BR",
+          codigo: "QB891600715BR",
           status: "Objeto encaminhado",
           data_hora: "Entregue há um mês atrás",
         },
         {
-          codigo: "QE856930216BR",
+          codigo: "QC856930216BR",
           status: "Objeto postado",
           data_hora: "Hoje as 16:00",
         },
       ],
     };
   },
+  methods: {
+    atualizaStatus(codigo) {
+      console.log(codigo);
+    },
+  },
 };
 </script>
 
 <style>
-geral {
-  width: 100vw;
-  height: 100vh;
+.geral {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+.cards {
+  width: 100%;
+  display: flex;
+  padding: 0.5rem;
+}
+
+ .card:first {
+   margin-left: 0.5rem;
+ }
+
+.titulo {
+  width: 190px;
+
+}
+
+.titulo h5 {
+  font-size: 1.5rem;
+  margin: 2px 0;
+  width: 100%;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: #fdbc18b9;
+  background: linear-gradient(180deg, rgba(49, 49, 49, 0.5) 0%, rgba(75, 75, 75, 0.5) 82%);
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  max-height: 300px;
+  margin-left: 15px;
+}
+.card span {
+  font-size: 1rem;
+  font-weight: 300;
+  max-width: 250px;
+}
+
+ .botao {
+  position: absolute;
+  right: 10px;
+  top: 0px;
+ }
+@media (max-width: 1028px){
+  .cards {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+  }
+.card {
+  margin-bottom: 0.5rem;
+  margin-left: 0;
+}
+}
+
 </style>

@@ -78,7 +78,7 @@
             <q-avatar size="72px">
               <img src="/Perfil.png" />
             </q-avatar>
-            <q-item-section class="q-mt-md q-pa-sm text-subtitle1">
+            <q-item-section class="" v-if="$q.screen.width >= 713">
               CapivaraDev
               </q-item-section>
           </q-item>
