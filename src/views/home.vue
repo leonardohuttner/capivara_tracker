@@ -1,11 +1,6 @@
 <template>
-  <div class="q-gutter-y-md">
-    <q-card>
-      <div class="q-mt-">
-        <hr>
-      </div>
+  <div class="q-gutter-y-md q-pa-sm">
       <Buscador/>
-    </q-card>
 </div>
 </template>
 
@@ -37,5 +32,8 @@ li {
 }
 a {
   color: #42b983;
+}
+.geral{
+  height: 100%;
 }
 </style>

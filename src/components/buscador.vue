@@ -13,9 +13,9 @@
 export default {
     data(){
         return {
-            codigo: 'OQ360293619BR', //brasil
+            // codigo: 'OQ360293619BR', //brasil
             // codigo:'NX287870895BR', //china
-            // codigo:'',
+            codigo:'',
             data:''
         }
     },
