@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR lFf">
+  <q-layout view="hHh lpR fFf">
     <q-header elevated class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-toolbar-title>
@@ -51,57 +51,60 @@
       <router-view />
     </q-page-container>
 
-    <q-footer reveal elevated class="bg-grey-8 text-white">
+    <q-footer elevated class="bg-grey-7 text-white">
       <q-toolbar>
-        <div class="row no-wrap q-pa-md"> 
-
-        <div class="column">
-        <q-avatar size="72px">
-          <img src="/Perfil.png" />
-        </q-avatar>
-        <q-toolbar-title shrink>CapivaraDev</q-toolbar-title>
+        <div class="col">
+          <q-list class="items-center" style="max-width: 500px">
+            <div class="text-subtitle1 q-mt-md">Social:</div>
+            <q-item class="q-pa-md">
+              <q-item-section class="q-pa-sm">
+                <a href="https://www.linkedin.com/in/leonardo-huttner/"
+                  ><img src="/linkedin.svg" alt=""
+                /></a>
+              </q-item-section>
+              <q-item-section class="q-pa-sm">
+                <a href="https://github.com/leonardohuttner"
+                  ><img src="/github.svg" alt=""
+                /></a>
+              </q-item-section>
+            </q-item>
+          </q-list>
         </div>
 
-        <q-separator vertical inset class="q-mx-lg"/>
+        <q-separator vertical inset class="q-mx-lg" />
 
-          <div class="column">
-            <q-list>
-              <div class="text-subtitle1 q-mt-md">Social:</div>
-              <q-item>
-                <q-item-label>
-                  <a href="https://www.linkedin.com/in/leonardo-huttner/"
-                    ><img src="linkedin.svg" alt=""
-                  /></a>
-                </q-item-label>
-                <q-item-label>
-                  <a href="https://github.com/leonardohuttner"
-                    ><img src="github.svg" alt=""
-                  /></a>
-                </q-item-label>
-              </q-item>
-            </q-list>
-          </div>
-
-          <q-separator vertical inset class="q-mx-lg" />
-
-          <div class="column">
-            <div class="text-subtitle2 q-mt-md">
-              API: <a href="https://linketrack.com">link&track</a>
-            </div>
-          </div>
-        </div>
-
-          <!-- <div class="column items-center">
+        <div class="col">
+          <q-item>
             <q-avatar size="72px">
               <img src="/Perfil.png" />
             </q-avatar>
+            <q-item-section class="q-mt-md q-pa-sm text-subtitle1">
+              CapivaraDev
+              </q-item-section>
+          </q-item>
+        </div>
 
-            <div class="text-subtitle1 q-mt-md">Capivara Dev</div>
-          </div> -->
+        <q-separator vertical inset class="q-mx-lg" />
 
+        <div class="col">
+          <div class="text-subtitle2 q-mt-md">API:</div>
+          <q-item>
+            <q-item-section>
+              <a href="https://linketrack.com">link&track</a>
+            </q-item-section>
+          </q-item>
+        </div>
       </q-toolbar>
     </q-footer>
   </q-layout>
+
+  <!-- <div class="column items-center">
+      <q-avatar size="72px">
+        <img src="/Perfil.png" />
+      </q-avatar>
+
+      <div class="text-subtitle1 q-mt-md">Capivara Dev</div>
+    </div> -->
 </template>
 
 <script>

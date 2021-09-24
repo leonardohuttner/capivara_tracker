@@ -10,10 +10,11 @@ import * as service from '../services/track'
 
 import LinhaTempo from '../components/linha_tempo.vue'
 import Loading from '../components/loading.vue'
-import mixinMessage from '../mixins/mixinsMessages'
+
+import mixinMessage from '../mixins/message'
 export default {
     components: { LinhaTempo, Loading },
-    mixins:{ mixinMessage },
+    mixins: [ mixinMessage ],
     data(){
       return {
         codigo:'',
@@ -31,10 +32,24 @@ export default {
         this.isLoading = true
         service.getData(codigo)
           .then(async (res) => {
-            this.dados = res
-            this.isLoading = false
+            if(!res.eventos){
+              this.isLoading = false
+              this.waningMessage({
+                title:'Linha do tempo',
+                message:'Não foi encontrado dados da encomenda, talvez não tenha sido postado ainda.Por favor tente novamente mais tarde',
+                duration:5000
+              })
+              this.$router.push('/')
+            }else {
+              this.dados = res
+              this.isLoading = false
+            }
             })
           .catch(e => {
+            this.errorMessage({
+              title: 'Erro',
+              message: 'Não foi possivel buscar o codigo,verifique sua conexão com a internet'
+            })
             console.log(e)
             this.isLoading = false
             })
