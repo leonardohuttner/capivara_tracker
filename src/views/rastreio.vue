@@ -7,6 +7,7 @@
 
 <script>
 import * as service from '../services/track'
+import * as storage from '../services/storage'
 
 import LinhaTempo from '../components/linha_tempo.vue'
 import Loading from '../components/loading.vue'
@@ -42,6 +43,7 @@ export default {
               this.$router.push('/')
             }else {
               this.dados = res
+              storage.setStorage(res.codigo)
               this.isLoading = false
             }
             })

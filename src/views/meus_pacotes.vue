@@ -3,14 +3,14 @@
     <div
       v-for="pacote in pacotes"
       :key="pacote.codigo"
-      @click="log(pacote.codigo)"
+      @click="rastrear(pacote.codigo)"
     >
       <section class="card shadow-3">
         <!-- <q-btn round icon="close" class="botao no-padding no-margin" size="5px"></q-btn> -->
         <div class="titulo">
           <h5 class="header">{{ pacote.codigo }}</h5>
         </div>
-        <span>{{ pacote.status }}</span>
+        <span>{{ pacote.eventos[0].status }}</span>
 
         <q-inner-loading :showing="isLoading">
           <q-spinner-ios size="40px" color="white" />
@@ -22,52 +22,33 @@
 
 <script>
 import * as service from "../services/track";
+import * as storage from '../services/storage';
 
 export default {
   created() {
-    this.atualizaStatus();
+    this.buscaDadosStorage()
   },
   data() {
     return {
       isLoading: false,
-      pacotes: [
-        {
-          codigo: "OQ360293619BR",
-          status: "",
-          data_hora: "2021-09-22T18:36:00.000Z",
-        },
-        {
-          codigo: "QE856930216BR",
-          status: "",
-          data_hora: "2021-09-22T18:36:00.000Z",
-        },
-        {
-          codigo: "NX287870895BR",
-          status: "",
-          data_hora: "2021-09-22T18:36:00.000Z",
-        },
-        {
-          codigo: "QC856930216BR",
-          status: "",
-          data_hora: "H2021-09-22T18:36:00.000Z",
-        },
-      ],
+      pacotes: [],
+      codigos: []
     };
   },
   methods: {
+    buscaDadosStorage(){
+      this.codigos = storage.getStorage()
+      this.atualizaStatus();
+    },
+
     atualizaStatus() {
       this.isLoading = true;
-      this.pacotes.map((pacote) => {
+      this.codigos.map((codigo) => {
         service
-          .getData(pacote.codigo)
+          .getData(codigo)
           .then((data) => {
-            if (data.eventos.length == 0) {
-              pacote.status = "Não encontrado no sistema.Por favor aguarde.";
-              this.isLoading = false;
-            } else {
-              pacote.status = data.eventos[0].status;
-              this.isLoading = false;
-            }
+            this.pacotes.push(data)
+            this.isLoading = false;
           })
           .catch((e) => {
             console.log(e);
@@ -75,6 +56,10 @@ export default {
           });
       });
     },
+
+  rastrear(codigo){
+    this.$router.push(`/rastreamento/${codigo}`)
+  }
   },
 };
 </script>
