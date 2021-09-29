@@ -1,6 +1,6 @@
 {
     "name": "Capivara Tracker",
-    "short_name": "Capivara Trckr",
+    "short_name": "Capivara Tracker",
     "description": "Aplicação de rastreamento de encomendas do correios",
     "start_url": ".",
     "scope": ".",
