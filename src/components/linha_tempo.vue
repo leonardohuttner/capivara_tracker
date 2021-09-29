@@ -1,6 +1,37 @@
 <template>
-  <div class="q-px-lg q-pb-md">
-    <q-timeline color="secondary">
+  <div class="q-px-lg q-pb-md q-mt-md">
+    <q-stepper
+      ref="stepper"
+      v-model="step"
+      color="primary"
+      animated
+      header-nav
+      :horizontal="$q.screen.width < 720 "
+      :contracted="$q.screen.width < 1030 "
+    >
+      <q-step
+        v-for="(evento, index) in dados.eventos.slice().reverse()"
+        :key="index"
+        :name="index"
+        :title="evento.status"
+        :icon="getIcon(evento.status)"
+        :active-icon="getIcon(evento.status)"
+        :done-icon="getIcon(evento.status)"
+        :done="step > index"
+        done-color="green"
+      >
+        <p class="text-h4">{{evento.status}}</p>
+        <p class="text-subtitle2">{{evento.local}}</p>
+        <p class="text-subtitle2"> {{evento.data}} as {{evento.hora}}</p>
+        <p class="text-subtitle2" v-html="evento.subStatus ? evento.subStatus[0] : ''">
+          {{ evento.subStatus[0] }}
+        </p>
+        <p class="text-subtitle2" >{{ evento.subStatus[1] }}</p>
+      </q-step>
+    </q-stepper>
+
+
+    <!-- <q-timeline color="secondary">
       <q-card class="bg-black text-white">
         <h3>
           {{ dados.codigo }}
@@ -14,15 +45,15 @@
         :icon="getIcon(evento.status)"
       >
         <q-list>
-          <q-item clickable v-ripple>
+          <q-item v-ripple>
             <q-item-section>{{ evento.local }}</q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple>
+          <q-item v-ripple>
             <q-item-section>{{ evento.data }} {{ evento.hora }}</q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple>
+          <q-item v-ripple>
             <q-item-section
               v-html="evento.subStatus ? evento.subStatus[0] : ''"
               >{{ evento.subStatus[0] }}</q-item-section
@@ -32,7 +63,7 @@
         </q-list>
         <hr />
       </q-timeline-entry>
-    </q-timeline>
+    </q-timeline> -->
   </div>
 </template>
 
@@ -43,7 +74,13 @@ export default {
   data() {
     return {
       encomenda: "",
+      step: this.dados.quantidade -1
     };
+  },
+  computed:{
+    lastStep:()=> {
+      return this.dados.eventos[0]
+    },
   },
   methods: {
     getIcon(status) {
