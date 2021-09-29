@@ -9,6 +9,7 @@
       :horizontal="$q.screen.width < 720 "
       :contracted="$q.screen.width < 1030 "
     >
+    {{step}}
       <q-step
         v-for="(evento, index) in dados.eventos.slice().reverse()"
         :key="index"
