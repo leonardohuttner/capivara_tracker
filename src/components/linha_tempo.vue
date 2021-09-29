@@ -1,6 +1,5 @@
 <template>
   <div class="q-px-lg q-pb-md q-mt-md">
-      {{step}}
     <q-stepper
       ref="stepper"
       v-model="step"
@@ -78,10 +77,10 @@ export default {
       step: this.dados.quantidade -1
     };
   },
+  updated(){
+    this.step = this.dados.quantidade - 1
+  },
   computed:{
-    lastStep:()=> {
-      return this.dados.eventos[0]
-    },
   },
   methods: {
     getIcon(status) {
