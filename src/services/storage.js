@@ -1,5 +1,4 @@
 const setStorage = (pacote)=>{
-    console.log('Salvou')
     if(!localStorage.getItem("codigos")){
         let codigos = []
         codigos.push(pacote)
@@ -7,7 +6,6 @@ const setStorage = (pacote)=>{
     }else {
         let codigos = JSON.parse(localStorage.getItem("codigos"))
         if(codigos.indexOf(pacote) == -1){
-            console.log('diferente',pacote)
             codigos.unshift(pacote)
             localStorage.setItem('codigos',JSON.stringify(codigos))
         }
