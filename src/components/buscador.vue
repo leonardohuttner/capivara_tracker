@@ -9,6 +9,7 @@
             v-model="codigo"
             mask="AA#########AA"
             counter
+            :style="disableAutoFocusIOS ? 'font-size: 17px' : ''"
             />
           <q-btn class="q-ma-sm" color="green" @click="buscar(codigo)">Buscar</q-btn>
       </div>
@@ -26,6 +27,10 @@ export default {
         }
     },
     methods:{
+        disableAutoFocusIOS(){
+            return this.$q.platform.is.ios
+        },
+
         buscar(codigo){
             if(!codigo){
                 this.warningMessage({
