@@ -5,7 +5,7 @@
           <p>Digite o codigo apenas do Correios e rastreie seu pacote.</p>
           <q-input
             label="Digite o codigo de rastreamento"
-            maxlength="13"
+            maxlength="17"
             v-model="codigo"
             mask="AA ### ### ### AA"
             counter
@@ -33,7 +33,7 @@ export default {
                     message:'O codigo não pode ser em branco.',
                     duration:5000
               })
-            }else if (codigo.length > 13 || codigo.length < 13){
+            }else if (codigo.length > 17 || codigo.length < 17){
                 this.warningMessage({
                     title:'Codigo invalido',
                     message:'O codigo tem que ter 13 digitos.',
