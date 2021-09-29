@@ -6,8 +6,11 @@
 
 <script>
 import toolbar from './components/toolbar.vue'
+import mixinMessage from './mixins/message'
+
 export default {
   components: { toolbar },
+  mixins: [ mixinMessage ],
   data() {
     return {
 

@@ -5,12 +5,12 @@
       :key="pacote.codigo"
       @click="rastrear(pacote.codigo)"
     >
-      <section class="card shadow-3">
+      <section class="card shadow-3" >
         <!-- <q-btn round icon="close" class="botao no-padding no-margin" size="5px"></q-btn> -->
         <div class="titulo">
           <h5 class="header">{{ pacote.codigo }}</h5>
         </div>
-        <span>{{ pacote.eventos[0].status }}</span>
+        <span>{{ pacote.eventos[0].status}}</span>
 
         <q-inner-loading :showing="isLoading">
           <q-spinner-ios size="40px" color="white" />
@@ -35,6 +35,22 @@ export default {
       codigos: []
     };
   },
+  computed:{
+    defineCorPeloStatus(){
+      let estiloCartao
+      if (status === "Objeto postado") {
+        estiloCartao = "bg-grey-1"
+      } else if (status === "Objeto encaminhado") {
+        estiloCartao = "bg-grey-4"
+      } else if (status === "Objeto saiu para entrega ao destinatário"){
+        estiloCartao = "bg-yellow-5";
+      } else if (status === "Objeto entregue ao destinatário") { 
+        estiloCartao = "bg-green-3"
+        }
+      return estiloCartao
+    }
+
+  },
   methods: {
     buscaDadosStorage(){
       this.codigos = storage.getStorage()
@@ -57,9 +73,9 @@ export default {
       });
     },
 
-  rastrear(codigo){
-    this.$router.push(`/rastreamento/${codigo}`)
-  }
+    rastrear(codigo){
+      this.$router.push(`/rastreamento/${codigo}`)
+    },
   },
 };
 </script>
@@ -97,16 +113,15 @@ export default {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  background: #fdbc18b9;
-  background: linear-gradient(
-    180deg,
-    rgba(49, 49, 49, 0.5) 0%,
-    rgba(75, 75, 75, 0.5) 82%
-  );
   padding: 0.5rem 1rem;
   border-radius: 5px;
   max-height: 300px;
   margin-left: 15px;
+
+  background: rgba(253, 188, 24, 0.822);
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 12px );
+  -webkit-backdrop-filter: blur( 12px );
 }
 .card span {
   font-size: 1rem;

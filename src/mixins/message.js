@@ -13,7 +13,7 @@ export default {
 
         warningMessage({message, title,duration}){
             this.$q.notify({
-                color:'yellow',
+                color:'primary',
                 message: title,
                 caption: message,
                 timeout: duration,
