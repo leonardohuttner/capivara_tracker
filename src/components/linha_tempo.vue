@@ -22,7 +22,8 @@
       >
         <p class="text-h4">{{evento.status}}</p>
         <p class="text-subtitle2">{{evento.local}}</p>
-        <p class="text-subtitle2"> {{evento.data}} as {{evento.hora}}</p>
+        <p class="text-subtitle2"> {{formatDataAPI(evento.data, evento.hora)}}</p>
+        <!-- <p class="text-subtitle2"> {{evento.data}} as {{evento.hora}}</p> -->
         <p class="text-subtitle2" v-html="evento.subStatus ? evento.subStatus[0] : ''">
           {{ evento.subStatus[0] }}
         </p>
@@ -69,20 +70,32 @@
 
 <script>
 // import * as service from '../services/track'
+import mixinDatas from '../mixins/moment'
+import dateTime from 'date-and-time'
 export default {
-  props: { dados: Object },
+  props: { dados: Object, step: Number },
+  mixins: [ mixinDatas ],
   data() {
     return {
       encomenda: "",
-      step: this.dados.quantidade -1
     };
   },
-  updated(){
-    this.step = this.dados.quantidade - 1
+  mounted(){
+    // this.step = this.dados.quantidade - 1
   },
   computed:{
+
   },
   methods: {
+      formatDataAPI(data,hora){
+        console.log(data.dados)
+        const date = dateTime.transform(data, 'DD/MM/YYYY', 'YYYY-MM-DD')
+        const hour = hora
+        console.log(date+'T'+ hour +':00.000Z')
+        const dataISO = date+'T'+ hour +':00.000Z'
+        return this.formatDateFromNow(dataISO)
+      },
+
     getIcon(status) {
       if (status == "Objeto postado") return "place";
       else if (status == "Objeto encaminhado") return "local_shipping";

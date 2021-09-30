@@ -1,6 +1,6 @@
 <template>
   <div>
-      <Linha-tempo :dados="dados"/>
+      <Linha-tempo :dados="dados" :step="step"/>
       <Loading :loading="isLoading" :message="message"/>
   </div>
 </template>
@@ -20,6 +20,7 @@ export default {
       return {
         codigo:'',
         dados: {},
+        step:0,
         isLoading: false,
         message: 'As capivaras estão procurando sua encomenda...'
       }
@@ -43,6 +44,8 @@ export default {
               this.$router.push('/')
             }else {
               this.dados = res
+              this.step = res.quantidade -1
+              console.log(this.dados)
               storage.setStorage(res.codigo)
               this.isLoading = false
             }
