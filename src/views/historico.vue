@@ -11,6 +11,7 @@
           <h5 class="header">{{ pacote.codigo }}</h5>
         </div>
         <span>{{ pacote.eventos[0].status }}</span>
+        <span>{{ formatDateFromNow(pacote.ultimo) }}</span>
 
         <q-inner-loading :showing="isLoading">
           <q-spinner-ios size="40px" color="white" />
@@ -24,13 +25,14 @@
 import * as service from "../services/track";
 import * as storage from '../services/storage';
 import mixinMessage from '../mixins/message'
+import moment from '../mixins/moment'
 
 export default {
   created() {
     this.buscaDadosStorage()
   },
 
-  mixins: [mixinMessage],
+  mixins: [mixinMessage, moment],
   data() {
     return {
       isLoading: false,
@@ -39,50 +41,39 @@ export default {
     };
   },
   computed:{
-    defineCorPeloStatus(){
-      let estiloCartao
-      if (status === "Objeto postado") {
-        estiloCartao = "bg-grey-1"
-      } else if (status === "Objeto encaminhado") {
-        estiloCartao = "bg-grey-4"
-      } else if (status === "Objeto saiu para entrega ao destinatário"){
-        estiloCartao = "bg-yellow-5";
-      } else if (status === "Objeto entregue ao destinatário") { 
-        estiloCartao = "bg-green-3"
-        }
-      return estiloCartao
-    }
 
   },
   methods: {
     buscaDadosStorage(){
-      this.codigos = storage.getStorage()
+      this.codigos = storage.getHistorico()
+      this.pacotes = this.codigos.map((codigo)=>{
+            var obj = new Object
+            obj.codigo = codigo
+            obj.eventos = [{}]
+            obj.ultimo = ''
+            return obj
+        })
       this.atualizaStatus();
     },
 
     atualizaStatus() {
       this.isLoading = true;
-      this.codigos.map((codigo) => {
-        service
-          .getData(codigo)
-          .then((data) => {
-            if(data.eventos[0].status === 'Objeto saiu para entrega ao destinatário'){
-              this.succesMessage({
-                title:'Atualização',
-                message: `O objeto ${data.codigo} saiu para entrega ao destinatário`,
-                duration:3000
-              })
-              } else if(data.eventos[0].status === 'Objeto entregue ao destinatário') {
-                storage.setHistorico(data.codigo)
-            }else {
-              this.pacotes.push(data)
-            }
-            this.isLoading = false;
-          })
-          .catch((e) => {
-            console.log(e);
-            this.isLoading = false;
-          });
+      this.pacotes.map((pacote,index) => {
+          setTimeout(()=> {
+            service
+                .getData(pacote.codigo)
+                .then((data) => {
+                    console.log(data)
+                    this.pacotes[index].eventos = data.eventos
+                    this.pacotes[index].ultimo = data.ultimo
+                    this.pacotes[index].quantidade = data.quantidade
+                    this.isLoading = false;
+                })
+                .catch((e) => {
+                    console.log(e);
+                    this.isLoading = false;
+                });
+                },1000*index)
       });
     },
 
@@ -131,7 +122,8 @@ export default {
   max-height: 300px;
   margin-left: 15px;
 
-  background: rgba(253, 188, 24, 0.822);
+  background: rgba(117, 117, 115, 0.678);
+  color: aliceblue;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);

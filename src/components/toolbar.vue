@@ -44,7 +44,41 @@
     </q-header>
 
     <q-drawer v-model="right" side="right" bordered>
-      <!-- drawer content -->
+      <q-list>
+        <div class="text-subtitle1 q-mt-md">Configurações:</div>
+
+        <q-item>
+          <q-btn class="full-width bg-black text-white"  icon="delete" label="Limpar encomendas" />
+        </q-item>
+
+        <q-item>
+          <q-btn class="full-width bg-black text-white" icon="delete" label="Limpar historico" />
+        </q-item>
+
+        <q-item>
+          <q-item-section>
+            <q-item-label overline>Notificações Push:</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item>
+          <q-item-section>
+            <q-btn-toggle
+              class="full-width q-ma-xs"
+              v-model="notificacao"
+              spread
+              no-caps
+              rounded
+              unelevated
+              toggle-color="primary"
+              color="grey"
+              :options="[
+                { label: 'Habilitado', value: true },
+                { label: 'Desabilitado', value: false },
+              ]"
+            />
+          </q-item-section>
+        </q-item>
+      </q-list>
     </q-drawer>
 
     <q-page-container>
@@ -80,7 +114,7 @@
             </q-avatar>
             <q-item-section class="" v-if="$q.screen.width >= 713">
               CapivaraDev
-              </q-item-section>
+            </q-item-section>
           </q-item>
         </div>
 
@@ -97,28 +131,34 @@
       </q-toolbar>
     </q-footer>
   </q-layout>
-
-  <!-- <div class="column items-center">
-      <q-avatar size="72px">
-        <img src="/Perfil.png" />
-      </q-avatar>
-
-      <div class="text-subtitle1 q-mt-md">Capivara Dev</div>
-    </div> -->
 </template>
 
 <script>
-// import Rastreio from '../components/rastreio.vue'
 
 export default {
-  //   components: { Rastreio },
   name: "Home",
   data() {
     return {
       tab: "rastreio",
       right: false,
+      notificacao: false,
     };
   },
+  watch:{
+    notificacao: function(value){
+      if(value){
+        Notification.requestPermission( permission => {
+          if(permission === 'granted'){ 
+            // this.registerBackgroundSync()
+          } else this.notificacao = false
+        })
+      } else this.notificacao = false
+    }
+  },
+
+  methods:{
+
+  }
 };
 </script>
 

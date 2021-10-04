@@ -88,10 +88,8 @@ export default {
   },
   methods: {
       formatDataAPI(data,hora){
-        console.log(data.dados)
         const date = dateTime.transform(data, 'DD/MM/YYYY', 'YYYY-MM-DD')
         const hour = hora
-        console.log(date+'T'+ hour +':00.000Z')
         const dataISO = date+'T'+ hour +':00.000Z'
         return this.formatDateFromNow(dataISO)
       },

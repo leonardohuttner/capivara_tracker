@@ -16,4 +16,30 @@ const getStorage = ()=>{
     const codigos = JSON.parse(localStorage.getItem("codigos"))
     return codigos
 }
-export { setStorage , getStorage}
+
+const removeFromStorage = (codigo) => {
+    let codigos = JSON.parse(localStorage.getItem("codigos"))
+    codigos.splice(codigos.indexOf(codigo))
+    localStorage.setItem('codigos',JSON.stringify(codigos))
+}
+
+const setHistorico = (pacote)=>{
+    if(!localStorage.getItem("historico")){
+        let historico = []
+        historico.push(pacote)
+        localStorage.setItem('historico',JSON.stringify(historico))
+    }else {
+        let historico = JSON.parse(localStorage.getItem("historico"))
+        if(historico.indexOf(pacote) == -1){
+            historico.unshift(pacote)
+            localStorage.setItem('historico',JSON.stringify(historico))
+        }
+    }
+}
+
+const getHistorico = ()=>{
+    const codigos = JSON.parse(localStorage.getItem("historico"))
+    return codigos
+}
+
+export { setStorage , getStorage, removeFromStorage, setHistorico, getHistorico }
