@@ -45,7 +45,6 @@ export default {
             }else {
               this.dados = res
               this.step = res.quantidade -1
-              console.log(this.dados)
               storage.setStorage(res.codigo)
               this.isLoading = false
             }

@@ -11,7 +11,8 @@
           <h5 class="header">{{ pacote.codigo }}</h5>
         </div>
         <span>{{ pacote.eventos[0].status }}</span>
-        <span>{{ formatDateFromNow(pacote.ultimo) }}</span>
+        
+        <span>{{ formatDateFromNow(pacote.ultimo) == 'Data inválida'? 'Carregando...' : formatDateFromNow(pacote.ultimo)}}</span>
 
         <q-inner-loading :showing="isLoading">
           <q-spinner-ios size="40px" color="white" />
@@ -63,7 +64,6 @@ export default {
             service
                 .getData(pacote.codigo)
                 .then((data) => {
-                    console.log(data)
                     this.pacotes[index].eventos = data.eventos
                     this.pacotes[index].ultimo = data.ultimo
                     this.pacotes[index].quantidade = data.quantidade

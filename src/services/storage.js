@@ -42,4 +42,20 @@ const getHistorico = ()=>{
     return codigos
 }
 
-export { setStorage , getStorage, removeFromStorage, setHistorico, getHistorico }
+const limpaHistorico = () => {
+    if(localStorage.getItem('historico')){
+        localStorage.removeItem('historico')
+        return true
+    }
+    return false
+}
+
+const limpaPacotes = () => {
+    if(localStorage.getItem('codigos')){
+        localStorage.removeItem('codigos')
+        return true
+    }
+    return false
+}
+
+export { setStorage , getStorage, removeFromStorage, setHistorico, getHistorico, limpaHistorico, limpaPacotes }

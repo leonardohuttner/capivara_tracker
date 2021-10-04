@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR lfr">
+  <q-layout view="hHh lpR fFr">
     <q-header elevated class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-toolbar-title>
@@ -43,16 +43,16 @@
       </q-tab-panels> -->
     </q-header>
 
-    <q-drawer v-model="right" side="right" bordered>
+    <q-drawer v-model="right" side="right" overlay behavior="desktop" bordered>
       <q-list>
         <div class="text-subtitle1 q-mt-md">Configurações:</div>
 
         <q-item>
-          <q-btn class="full-width bg-black text-white"  icon="delete" label="Limpar encomendas" />
+          <q-btn class="full-width bg-black text-white" @click="limparEncomendas" icon="delete" label="Limpar encomendas" />
         </q-item>
 
         <q-item>
-          <q-btn class="full-width bg-black text-white" icon="delete" label="Limpar historico" />
+          <q-btn class="full-width bg-black text-white" @click="limparHistorico" icon="delete" label="Limpar historico" />
         </q-item>
 
         <q-item>
@@ -134,9 +134,12 @@
 </template>
 
 <script>
+import mixinMessage from '../mixins/message'
+import * as storage from '../services/storage';
 
 export default {
   name: "Home",
+  mixins: [mixinMessage],
   data() {
     return {
       tab: "rastreio",
@@ -157,7 +160,37 @@ export default {
   },
 
   methods:{
+    limparEncomendas(){
+      if(storage.limpaPacotes()){
+        this.succesMessage({
+          title:'Atualização',
+          message: `As encomendas foram limpas com sucesso`,
+          duration:3000
+        })
+      } else {
+        this.errorMessage({
+          title:'Erro',
+          message: `Não foi possivel limpar as encomendas`,
+          duration:3000
+        })
+      }
+    },
 
+    limparHistorico(){
+      if(storage.limpaHistorico()){
+        this.succesMessage({
+          title:'Atualização',
+          message: `O historico foi limpo com sucesso`,
+          duration:3000
+        })
+      } else {
+        this.errorMessage({
+          title:'Erro',
+          message: `Não foi possivel limpar historico`,
+          duration:3000
+        })
+      }
+    },
   }
 };
 </script>
