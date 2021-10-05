@@ -1,7 +1,7 @@
 <template>
   <div>
       <div class="q-ma-md">
-          <h3 class="q-ma-md">Rastreador de encomendas</h3>
+          <h4 class="q-ma-md">Rastreador de encomendas</h4>
           <p>Digite o codigo apenas do Correios e rastreie seu pacote.</p>
           <q-input
             label="Digite o codigo de rastreamento"
@@ -53,5 +53,7 @@ export default {
 </script>
 
 <style>
-
+ h4 {
+     font: 1.4rem 'Roboto', sans-serif;
+ }
 </style>
