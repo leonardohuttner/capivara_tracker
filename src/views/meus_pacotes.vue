@@ -67,6 +67,7 @@ export default {
           .getData(codigo)
           .then((data) => {
             if(data.eventos[0].status === 'Objeto saiu para entrega ao destinatário'){
+              this.pacotes.push(data)
               this.succesMessage({
                 title:'Atualização',
                 message: `O objeto ${data.codigo} saiu para entrega ao destinatário`,
