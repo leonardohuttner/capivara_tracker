@@ -24,24 +24,7 @@ npm run lint
 Deployed at vercel app
 
 ## Personal Settings
-edit this snippet to customize
+App feito para buscar e monitorar encomendas dos correios atraves da api Link e track de forma estudar alguns pontos de chamadas de apis e uso de tokens e tornar um PWA com atualização e mensagens push
 ```
-empresa:{
-      nome:'name',
-      slogan:'slogan'
-     },
-     dados:[
-       {
-         nome:'contato 1',
-         descricao:'Entre em contato conosco atravez do contato',
-         icon: '/whatsapp.png',
-         link: 'https://wa.me/message/6Z5UKTEG34ROI1'
-       },
-       {
-        nome:'contato 2',
-        descricao:'descricao 2',
-        icon:'/whatsapp.png',
-        link:'https://wa.me/c/555185261791'
-       }
-     ]
+
 ```
