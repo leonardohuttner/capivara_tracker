@@ -1,10 +1,8 @@
-// // import api from '../plugins/axios'
-import axios from 'axios'
-const formato = 'json'
-
+import { api } from '../plugins/axios'
+// import { api } from 'axios'
 
 const getData = (codigo) => {
-    const request = axios.get(`${formato}?token=${process.env.VUE_APP_TOKEN}&user=${process.env.VUE_APP_USER}&codigo=${codigo}`)
+    const request = api.get(`${codigo}`)
     return request.then(res => res.data)
 }
 

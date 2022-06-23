@@ -3,14 +3,14 @@
     <div
       v-for="pacote in pacotes"
       :key="pacote.codigo"
-      @click="rastrear(pacote.codigo)"
+      @click="rastrear(pacote.tracking_code)"
     >
       <section class="card shadow-3">
         <!-- <q-btn round icon="close" class="botao no-padding no-margin" size="5px"></q-btn> -->
         <div class="titulo">
-          <h5 class="header">{{ pacote.codigo }}</h5>
+          <h5 class="header">{{ pacote.tracking_code }}</h5>
         </div>
-        <span>{{ pacote.eventos[0].status }}</span>
+        <span>{{ pacote.events[ultimo].events}}</span>
 
         <q-inner-loading :showing="isLoading">
           <q-spinner-ios size="40px" color="white" />
@@ -35,24 +35,9 @@ export default {
     return {
       isLoading: false,
       pacotes: [],
-      codigos: []
+      codigos: [],
+      ultimo: 0
     };
-  },
-  computed:{
-    defineCorPeloStatus(){
-      let estiloCartao
-      if (status === "Objeto postado") {
-        estiloCartao = "bg-grey-1"
-      } else if (status === "Objeto encaminhado") {
-        estiloCartao = "bg-grey-4"
-      } else if (status === "Objeto saiu para entrega ao destinatário"){
-        estiloCartao = "bg-yellow-5";
-      } else if (status === "Objeto entregue ao destinatário") { 
-        estiloCartao = "bg-green-3"
-        }
-      return estiloCartao
-    }
-
   },
   methods: {
     buscaDadosStorage(){
@@ -66,19 +51,25 @@ export default {
         service
           .getData(codigo)
           .then((data) => {
-            if(data.eventos[0].status === 'Objeto saiu para entrega ao destinatário'){
-              this.pacotes.push(data)
-              this.succesMessage({
-                title:'Atualização',
-                message: `O objeto ${data.codigo} saiu para entrega ao destinatário`,
-                duration:3000
-              })
-              } else if(data.eventos[0].status === 'Objeto entregue ao destinatário') {
-                storage.setHistorico(data.codigo)
-            }else {
-              this.pacotes.push(data)
+            const objeto = data.data
+            if(objeto){
+              if(objeto.events){
+                this.ultimo = objeto.events.length - 1
+                if(objeto.events[this.ultimo] === 'Objeto saiu para entrega ao destinatário'){
+                  this.pacotes.push(objeto)
+                  this.succesMessage({
+                    title:'Atualização',
+                    message: `O objeto ${objeto.codigo} saiu para entrega ao destinatário`,
+                    duration:3000
+                  })
+                } else if (objeto.events[this.ultimo] === 'Objeto entregue ao destinatário'){
+                  storage.setHistorico(objeto.codigo)
+                } else {
+                  this.pacotes.push(objeto)
+                }
+                this.isLoading = false;
+              }
             }
-            this.isLoading = false;
           })
           .catch((e) => {
             console.log(e);

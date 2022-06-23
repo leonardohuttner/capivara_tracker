@@ -1,5 +1,9 @@
 <template>
   <div class="q-px-lg q-pb-md q-mt-md">
+    <q-card>
+      <!-- {{dados.service_name}} -->
+      <!-- {{dados.status}} -->
+    </q-card>
     <q-stepper
       ref="stepper"
       v-model="step"
@@ -10,68 +14,36 @@
       :contracted="$q.screen.width < 1030 "
     >
       <q-step
-        v-for="(evento, index) in dados.eventos.slice().reverse()"
+        v-for="(evento, index) in dados.events"
         :key="index"
         :name="index"
-        :title="evento.status"
-        :icon="getIcon(evento.status)"
-        :active-icon="getIcon(evento.status)"
-        :done-icon="getIcon(evento.status)"
+        :title="evento.events"
+        :icon="getIcon(evento.events)"
+        :active-icon="getIcon(evento.events)"
+        :done-icon="getIcon(evento.events)"
         :done="step > index"
         done-color="green"
       >
-        <p class="text-h4">{{evento.status}}</p>
-        <p class="text-subtitle2">{{evento.local}}</p>
-        <p class="text-subtitle2"> {{formatDataAPI(evento.data, evento.hora)}}</p>
-        <!-- <p class="text-subtitle2"> {{evento.data}} as {{evento.hora}}</p> -->
-        <p class="text-subtitle2" v-html="evento.subStatus ? evento.subStatus[0] : ''">
-          {{ evento.subStatus[0] }}
-        </p>
-        <p class="text-subtitle2" >{{ evento.subStatus[1] }}</p>
+      <p class="text-h4">{{evento.events}}</p>
+        <div v-if="evento.tag== 'posted'">
+          <p class="text-subtitle2">Em {{evento.local}} - {{evento.city}}-{{evento.uf}}</p>
+        </div>
+        
+        <div v-if="evento.tag== 'movement'">
+          <p>De {{evento.local}} - {{evento.city}}-{{evento.uf}}</p>
+          <p>Para {{evento.destination_local}} - {{evento.destination_city}}-{{evento.destination_uf}}</p>
+        </div>
+        <div v-if="evento.tag== 'onroute'">
+          <p>{{evento.local}} - {{evento.city}}</p>
+        </div>
+        <p>{{formatDataAPI(evento.date)}}</p>
       </q-step>
     </q-stepper>
-
-
-    <!-- <q-timeline color="secondary">
-      <q-card class="bg-black text-white">
-        <h3>
-          {{ dados.codigo }}
-        </h3>
-      </q-card>
-
-      <q-timeline-entry
-        v-for="evento in dados.eventos"
-        :key="evento.hora"
-        :title="evento.status"
-        :icon="getIcon(evento.status)"
-      >
-        <q-list>
-          <q-item v-ripple>
-            <q-item-section>{{ evento.local }}</q-item-section>
-          </q-item>
-
-          <q-item v-ripple>
-            <q-item-section>{{ evento.data }} {{ evento.hora }}</q-item-section>
-          </q-item>
-
-          <q-item v-ripple>
-            <q-item-section
-              v-html="evento.subStatus ? evento.subStatus[0] : ''"
-              >{{ evento.subStatus[0] }}</q-item-section
-            >
-            <q-item-section>{{ evento.subStatus[1] }}</q-item-section>
-          </q-item>
-        </q-list>
-        <hr />
-      </q-timeline-entry>
-    </q-timeline> -->
   </div>
 </template>
 
 <script>
-// import * as service from '../services/track'
 import mixinDatas from '../mixins/moment'
-import dateTime from 'date-and-time'
 export default {
   props: { dados: Object, step: Number },
   mixins: [ mixinDatas ],
@@ -81,22 +53,20 @@ export default {
     };
   },
   mounted(){
-    // this.step = this.dados.quantidade - 1
+    this.step = this.dados.events.length - 1 
+
   },
   computed:{
 
   },
   methods: {
-      formatDataAPI(data,hora){
-        const date = dateTime.transform(data, 'DD/MM/YYYY', 'YYYY-MM-DD')
-        const hour = hora
-        const dataISO = date+'T'+ hour +':00.000Z'
-        return this.formatDateFromNow(dataISO)
+      formatDataAPI(data){
+        return this.formatDateFromNow(data)
       },
 
     getIcon(status) {
       if (status == "Objeto postado") return "place";
-      else if (status == "Objeto encaminhado") return "local_shipping";
+      else if (status == "Objeto em trânsito - por favor aguarde") return "local_shipping";
       else if (status == "Fiscalização aduaneira finalizada")
         return "fact_check";
       else if (status == "Objeto recebido pelos Correios do Brasil")

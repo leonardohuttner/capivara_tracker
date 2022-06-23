@@ -34,28 +34,20 @@ export default {
         this.isLoading = true
         service.getData(codigo)
           .then(async (res) => {
-            if(!res.eventos){
+              this.dados = res.data
+              this.step = res.data.events.length - 1
+              storage.setStorage(res.data.tracking_code)
               this.isLoading = false
+            })
+          .catch(e => {
+            this.isLoading = false
               this.waningMessage({
                 title:'Linha do tempo',
                 message:'Não foi encontrado dados da encomenda, talvez não tenha sido postado ainda.Por favor tente novamente mais tarde',
                 duration:5000
               })
-              this.$router.push('/')
-            }else {
-              this.dados = res
-              this.step = res.quantidade -1
-              storage.setStorage(res.codigo)
-              this.isLoading = false
-            }
-            })
-          .catch(e => {
-            this.errorMessage({
-              title: 'Erro',
-              message: 'Não foi possivel buscar o codigo,verifique sua conexão com a internet'
-            })
             console.log(e)
-            this.isLoading = false
+            this.$router.push('/')
             })
       }
     }
