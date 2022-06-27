@@ -7,9 +7,7 @@
                 rounded
                 outlined 
                 label="Digite o codigo de rastreamento"
-                maxlength="13"
                 v-model="codigo"
-                mask="AA#########AA"
                 counter
                 :style="disableAutoFocusIOS ? 'font-size: 17px' : ''"
             />
@@ -40,12 +38,6 @@ export default {
                     message:'O codigo não pode ser em branco.',
                     duration:5000
                 })
-            }else if (codigo.length > 13 || codigo.length < 13){
-                this.warningMessage({
-                    title:'Codigo invalido',
-                    message:'O codigo tem que ter 13 digitos.',
-                    duration:5000
-                })
             } else {
                 this.$router.push(`/rastreamento/${codigo}`)
             }
@@ -55,7 +47,7 @@ export default {
 </script>
 
 <style>
- h4 {
-     font: 1.4rem 'Roboto', sans-serif;
- }
+h4 {
+    font: 1.4rem 'Roboto', sans-serif;
+}
 </style>
