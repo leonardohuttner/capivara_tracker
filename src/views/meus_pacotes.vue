@@ -3,14 +3,15 @@
     <div
       v-for="pacote in pacotes"
       :key="pacote.codigo"
-      @click="rastrear(pacote.tracking_code)"
+      @click="rastrear(pacote.tracking_code ? pacote.tracking_code : pacote.tracking)"
     >
       <section class="card shadow-3">
         <!-- <q-btn round icon="close" class="botao no-padding no-margin" size="5px"></q-btn> -->
         <div class="titulo">
-          <h5 class="header">{{ pacote.tracking_code }}</h5>
+          <h5 class="header">{{ pacote.tracking_code ? pacote.tracking_code : pacote.tracking }}</h5>
         </div>
-        <span>{{ pacote.events[ultimo].events}}</span>
+        <p>{{pacote.company.name}}</p>
+        <span>{{ pacote.events ? pacote.events[ultimo].events : pacote.event[ultimo].events}}</span>
 
         <q-inner-loading :showing="isLoading">
           <q-spinner-ios size="40px" color="white" />
@@ -53,21 +54,41 @@ export default {
           .then((data) => {
             const objeto = data.data
             if(objeto){
-              if(objeto.events){
-                this.ultimo = objeto.events.length - 1
-                if(objeto.events[this.ultimo] === 'Objeto saiu para entrega ao destinatário'){
-                  this.pacotes.push(objeto)
-                  this.succesMessage({
-                    title:'Atualização',
-                    message: `O objeto ${objeto.codigo} saiu para entrega ao destinatário`,
-                    duration:3000
-                  })
-                } else if (objeto.events[this.ultimo] === 'Objeto entregue ao destinatário'){
-                  storage.setHistorico(objeto.codigo)
-                } else {
-                  this.pacotes.push(objeto)
+              if(objeto.company.name === "Correios"){
+                if(objeto.events){
+                  this.ultimo = objeto.events.length - 1
+                  if(objeto.events[this.ultimo] === 'Objeto saiu para entrega ao destinatário'){
+                    this.pacotes.push(objeto)
+                    this.succesMessage({
+                      title:'Atualização',
+                      message: `O objeto ${objeto.codigo} saiu para entrega ao destinatário`,
+                      duration:3000
+                    })
+                  } else if (objeto.events[this.ultimo] === 'Objeto entregue ao destinatário'){
+                    storage.setHistorico(objeto.codigo)
+                  } else {
+                    this.pacotes.push(objeto)
+                  }
+                  this.isLoading = false;
                 }
-                this.isLoading = false;
+              } else {
+                if(objeto.event){
+                  this.ultimo = objeto.event.length - 1
+                  if(objeto.event[this.ultimo].tag === 'onroute'){
+                    this.pacotes.push(objeto)
+                    this.succesMessage({
+                      title:'Atualização',
+                      message: `O objeto ${objeto.codigo} saiu para entrega ao destinatário`,
+                      duration:3000
+                    })
+                  } else if (objeto.is_delivered > 0){
+                    console.log("movement")
+                    storage.setHistorico(objeto.codigo)
+                  } else {
+                    console.log(objeto)
+                    this.pacotes.push(objeto)
+                  }
+                }
               }
             }
           })

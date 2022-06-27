@@ -35,8 +35,11 @@ export default {
         service.getData(codigo)
           .then(async (res) => {
               this.dados = res.data
+              if(res.data.event){
+                res.data.events = res.data.event
+              }
               this.step = res.data.events.length - 1
-              storage.setStorage(res.data.tracking_code)
+              storage.setStorage(res.data.tracking_code ? res.data.tracking_code : res.data.tracking)
               this.isLoading = false
             })
           .catch(e => {

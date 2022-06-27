@@ -24,6 +24,7 @@
         :done="step > index"
         done-color="green"
       >
+      <p class="text-subtitle2">{{dados.company.name}}</p>
       <p class="text-h4">{{evento.events}}</p>
         <div v-if="evento.tag== 'posted'">
           <p class="text-subtitle2">Em {{evento.local}} - {{evento.city}}-{{evento.uf}}</p>
@@ -31,7 +32,7 @@
         
         <div v-if="evento.tag== 'movement'">
           <p>De {{evento.local}} - {{evento.city}}-{{evento.uf}}</p>
-          <p>Para {{evento.destination_local}} - {{evento.destination_city}}-{{evento.destination_uf}}</p>
+          <p v-if="evento.destination_local">Para {{evento.destination_local}} - {{evento.destination_city}}-{{evento.destination_uf}}</p>
         </div>
         <div v-if="evento.tag== 'onroute'">
           <p>{{evento.local}} - {{evento.city}}</p>
@@ -45,16 +46,12 @@
 <script>
 import mixinDatas from '../mixins/moment'
 export default {
-  props: { dados: Object, step: Number },
+  props: { dados: Object, step: Number},
   mixins: [ mixinDatas ],
   data() {
     return {
       encomenda: "",
     };
-  },
-  mounted(){
-    this.step = this.dados.events.length - 1 
-
   },
   computed:{
 
