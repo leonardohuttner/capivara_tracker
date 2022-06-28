@@ -69,7 +69,7 @@ export default {
                   } else {
                     this.pacotes.push(objeto)
                   }
-                  this.isLoading = false;
+                  this.isLoading = false
                 }
               } else {
                 if(objeto.event){
@@ -89,6 +89,7 @@ export default {
                     this.pacotes.push(objeto)
                   }
                 }
+                this.isLoading = false
               }
             }
           })
